@@ -75,8 +75,8 @@ c:/Users/AADI/Desktop/My/CODE/Github/savior/
 ### 2. Setup
 Clone the repository and create a virtual environment:
 ```bash
-git clone https://github.com/adityasing9/SettleHub.git
-cd SettleHub
+git clone https://github.com/adityasing9/examai-cli.git
+cd examai-cli
 python -m venv venv
 venv\Scripts\activate      # Windows
 source venv/bin/activate    # macOS/Linux

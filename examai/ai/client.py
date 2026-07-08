@@ -14,7 +14,7 @@ class AIClient:
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/adityasing9/SettleHub",
+            "HTTP-Referer": "https://github.com/adityasing9/examai-cli",
             "X-Title": "ExamAI CLI"
         }
         data = {

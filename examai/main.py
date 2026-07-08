@@ -612,7 +612,7 @@ def about():
         "and offline capability via Ollama local servers.\n\n"
         "👥 [bold green]Developed By:[/bold green] Google DeepMind Advanced Agentic Coding Pair Programmers\n"
         "⚖️ [bold yellow]License:[/bold yellow] MIT License\n"
-        "🔗 [bold blue]GitHub Repository:[/bold blue] https://github.com/adityasing9/SettleHub"
+        "🔗 [bold blue]GitHub Repository:[/bold blue] https://github.com/adityasing9/examai-cli"
     )
     console.print(Panel(about_text, border_style="magenta", box=ROUNDED, title="🎓 About ExamAI CLI"))
 
