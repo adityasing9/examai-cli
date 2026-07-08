@@ -28,6 +28,7 @@ from rich.prompt import Prompt, Confirm
 # Import local components
 from examai.config import get_settings, update_config_key
 from examai.database import db
+from examai.utils.logger import logger
 from examai.ai.engine import prompt_engine
 from examai.pdf.search import search_manager
 from examai.formatter.text import (
