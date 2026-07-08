@@ -1,3 +1,18 @@
+import sys
+import io
+
+# Force UTF-8 stream encoding to prevent charmap UnicodeEncodeErrors in Windows consoles
+if sys.stdout and sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    except Exception:
+        pass
+if sys.stderr and sys.stderr.encoding != 'utf-8':
+    try:
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+    except Exception:
+        pass
+
 import typer
 import json
 import os
