@@ -63,29 +63,32 @@ The instant terminal commands connect to a Next.js web application deployed on V
 ### ⚙️ Switch Providers/Models directly from Terminal (Optional)
 While you manage your API keys on the Web Admin Portal, you can switch the active provider or model centrally **directly from your terminal** (using your stored keys). This is completely optional.
 
-#### Option A: Switch at Startup (Runs the configuration, then opens chat)
+#### Option A: Interactive Switch Menu (Recommended)
+While chatting in the terminal prompt (`You >`), simply type:
+```text
+You > /switch
+```
+This opens an interactive menu right in your terminal window:
+```text
+  ┌─── Select AI Provider ───┐
+  │ 1. Google Gemini (Free)   │
+  │ 2. Groq (Ultra-fast)      │
+  │ 3. OpenAI (ChatGPT)       │
+  │ 4. OpenRouter             │
+  │ 5. Anthropic (Claude)     │
+  └───────────────────────────┘
+  Choose option (1-5): 2
+```
+Selecting an option automatically switches the active provider and recommended model name centrally on your Vercel portal!
+
+#### Option B: Switch via Environment Variables at Startup
 * **Windows (PowerShell)**:
   ```powershell
-  $env:ADMIN_PASS="admin123"; $env:SET_PROVIDER="openai"; $env:SET_MODEL="gpt-4o-mini"; irm https://tinyurl.com/ask-examai | iex
+  $env:ADMIN_PASS="admin123"; $env:SET_PROVIDER="groq"; irm https://tinyurl.com/ask-examai | iex
   ```
 * **Linux / macOS (Bash)**:
   ```bash
-  ADMIN_PASS="admin123" SET_PROVIDER="openai" SET_MODEL="gpt-4o-mini" curl -sL https://tinyurl.com/ask-examai-sh | bash
-  ```
-
-#### Option B: Switch Mid-Session (Type directly inside the chat prompt)
-While chatting in the terminal, you can type these commands to switch LLM backends instantly:
-* **Switch Provider**:
-  ```text
-  You > /provider openai
-  [System: Switching provider to 'openai'...]
-  ✔ Active provider changed to 'openai'!
-  ```
-* **Switch Model**:
-  ```text
-  You > /model gpt-4o-mini
-  [System: Switching model to 'gpt-4o-mini'...]
-  ✔ Active model changed to 'gpt-4o-mini'!
+  ADMIN_PASS="admin123" SET_PROVIDER="groq" curl -sL https://tinyurl.com/ask-examai-sh | bash
   ```
 
 ---
