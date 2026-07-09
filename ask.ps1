@@ -143,8 +143,9 @@ function Start-AskAI {
                 "3" { $prov = "openai"; $mdl = "gpt-4o-mini" }
                 "4" { $prov = "openrouter"; $mdl = "google/gemini-2.5-flash" }
                 "5" { $prov = "anthropic"; $mdl = "claude-3-5-sonnet-20241022" }
-                default { Write-Host "$red  Invalid selection.$reset`n"; continue }
+                default { Write-Host "$red  Invalid selection.$reset`n"; $prov = $null; break }
             }
+            if (-not $prov) { continue }
 
             Write-Host "$yellow  Switching to $prov ($mdl) centrally...$reset"
             $ok = Set-VercelConfig -provider $prov -model $mdl
