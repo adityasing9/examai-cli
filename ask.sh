@@ -29,7 +29,7 @@ get_admin_passcode() {
     fi
     if [ -z "$CACHED_ADMIN_PASS" ]; then
         echo -ne "${YELLOW}  [Auth] Enter Admin Passcode: ${RESET}" >&2
-        read -s -r CACHED_ADMIN_PASS < /dev/tty
+        read -s -r CACHED_ADMIN_PASS
         echo "" >&2
     fi
     echo "$CACHED_ADMIN_PASS"
@@ -110,7 +110,7 @@ echo ""
 
 while true; do
     echo -ne "${GREEN}${BOLD}  You > ${RESET}"
-    read -r question < /dev/tty
+    read -r question
     
     if [[ -z "$question" ]]; then
         continue
@@ -140,7 +140,7 @@ while true; do
         echo -e "${CYAN}  │ 5. Anthropic (Claude)     │${RESET}"
         echo -e "${CYAN}  └───────────────────────────┘${RESET}"
         echo -ne "${YELLOW}  Choose option (1-5): ${RESET}"
-        read -r opt < /dev/tty
+        read -r opt
         
         prov=""
         mdl=""
@@ -170,7 +170,7 @@ while true; do
         fi
 
         echo -ne "${YELLOW}  Enter NEW Admin Passcode: ${RESET}"
-        read -s -r new_pass < /dev/tty
+        read -s -r new_pass
         echo ""
         
         if [ -z "$new_pass" ]; then
