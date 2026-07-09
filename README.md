@@ -60,15 +60,15 @@ The instant terminal commands connect to a Next.js web application deployed on V
 4. **Vulnerable Key Shield**: API keys are kept on the server and never sent to terminal clients.
 5. **Robust Auto-Retry Engine**: Intercepts `429` (Rate Limit) and `503` (Server Busy) responses from upstream APIs, retrying up to 4 times using **exponential backoff with random jitter**.
 
-### ⚙️ Switch Providers/Models directly from Terminal (Optional)
-While you manage your API keys on the Web Admin Portal, you can switch the active provider or model centrally **directly from your terminal** (using your stored keys). This is completely optional.
+### ⚙️ Switch Settings / Passcode directly from Terminal (Optional)
+While you manage your API keys on the Web Admin Portal, you can switch the active provider/model or change the admin passcode centrally **directly from your terminal**.
 
-#### Option A: Interactive Switch Menu (Recommended)
+#### 1. Interactive Switch Menu
 While chatting in the terminal prompt (`You >`), simply type:
 ```text
 You > /switch
 ```
-This opens an interactive menu right in your terminal window:
+This opens an interactive menu to change your active provider and model:
 ```text
   ┌─── Select AI Provider ───┐
   │ 1. Google Gemini (Free)   │
@@ -79,9 +79,15 @@ This opens an interactive menu right in your terminal window:
   └───────────────────────────┘
   Choose option (1-5): 2
 ```
-Selecting an option automatically switches the active provider and recommended model name centrally on your Vercel portal!
 
-#### Option B: Switch via Environment Variables at Startup
+#### 2. Change Admin Passcode Centrally
+To change your Vercel/Supabase admin passcode right from the terminal prompt, type:
+```text
+You > /password
+```
+It will prompt you for your current passcode, authorize, and let you save a new passcode centrally.
+
+#### 3. Switch via Environment Variables at Startup
 * **Windows (PowerShell)**:
   ```powershell
   $env:ADMIN_PASS="admin123"; $env:SET_PROVIDER="groq"; irm https://tinyurl.com/ask-examai | iex
