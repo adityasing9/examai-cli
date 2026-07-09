@@ -178,6 +178,32 @@ export async function POST(req: NextRequest) {
       }
 
       answerText = providerResponse?.content?.[0]?.text || "";
+    } else if (provider === "groq") {
+      apiKey = config.groq_api_key;
+      if (!apiKey) {
+        return NextResponse.json({ error: "Groq API key is not configured." }, { status: 400 });
+      }
+
+      const url = "https://api.groq.com/openai/v1/chat/completions";
+      const messages = convertToOpenAIMessages(contents, systemInstruction);
+      
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({ model, messages }),
+      });
+
+      statusCode = response.status;
+      providerResponse = await response.json();
+
+      if (!response.ok) {
+        throw new Error(providerResponse?.error?.message || "Groq API request failed.");
+      }
+
+      answerText = providerResponse?.choices?.[0]?.message?.content || "";
     } else {
       return NextResponse.json({ error: `Unsupported provider: ${provider}` }, { status: 400 });
     }

@@ -47,6 +47,7 @@ export async function GET(req: NextRequest) {
     openai_api_key: config.openai_api_key || "",
     openrouter_api_key: config.openrouter_api_key || "",
     anthropic_api_key: config.anthropic_api_key || "",
+    groq_api_key: config.groq_api_key || "",
     has_password: !!config.admin_password,
   });
 }
@@ -66,6 +67,7 @@ export async function POST(req: NextRequest) {
       "openai_api_key", 
       "openrouter_api_key", 
       "anthropic_api_key", 
+      "groq_api_key",
       "admin_password"
     ];
 

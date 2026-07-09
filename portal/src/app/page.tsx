@@ -51,6 +51,7 @@ export default function AdminPortal() {
   const [openaiKey, setOpenaiKey] = useState("");
   const [openrouterKey, setOpenrouterKey] = useState("");
   const [anthropicKey, setAnthropicKey] = useState("");
+  const [groqKey, setGroqKey] = useState("");
   const [newPasswordInput, setNewPasswordInput] = useState("");
   
   // UI visibility states
@@ -59,6 +60,7 @@ export default function AdminPortal() {
     openai: false,
     openrouter: false,
     anthropic: false,
+    groq: false,
   });
   
   const [saveStatus, setSaveStatus] = useState({ success: false, message: "" });
@@ -105,6 +107,7 @@ export default function AdminPortal() {
         setOpenaiKey(data.openai_api_key);
         setOpenrouterKey(data.openrouter_api_key);
         setAnthropicKey(data.anthropic_api_key);
+        setGroqKey(data.groq_api_key);
         setIsLoggedIn(true);
         localStorage.setItem("examai_admin_password", passToVerify);
         setLoginError("");
@@ -158,6 +161,7 @@ export default function AdminPortal() {
         openai_api_key: openaiKey,
         openrouter_api_key: openrouterKey,
         anthropic_api_key: anthropicKey,
+        groq_api_key: groqKey,
       };
       
       if (newPasswordInput.trim() !== "") {
@@ -208,6 +212,8 @@ export default function AdminPortal() {
       setActiveModel("google/gemini-2.5-flash");
     } else if (newProvider === "anthropic") {
       setActiveModel("claude-3-5-sonnet-20241022");
+    } else if (newProvider === "groq") {
+      setActiveModel("llama-3.3-70b-versatile");
     }
   };
 
@@ -379,6 +385,7 @@ export default function AdminPortal() {
                     <option value="openrouter">OpenRouter</option>
                     <option value="openai">OpenAI (ChatGPT)</option>
                     <option value="anthropic">Anthropic (Claude)</option>
+                    <option value="groq">Groq</option>
                   </select>
                 </div>
 
@@ -484,6 +491,29 @@ export default function AdminPortal() {
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a09bb5] hover:text-[#e0e0fa]"
                     >
                       {showKeys.anthropic ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Groq API Key */}
+                <div className="space-y-1">
+                  <label className="text-[10px] text-[#a09bb5] uppercase tracking-wider block">
+                    Groq API Key
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showKeys.groq ? "text" : "password"}
+                      value={groqKey}
+                      onChange={(e) => setGroqKey(e.target.value)}
+                      placeholder="GROQ KEY..."
+                      className="w-full pl-3 pr-10 py-2 bg-[#07040e] border border-[#c135e3]/30 rounded text-[#e0e0fa] text-xs font-mono focus:outline-none focus:border-[#00f3ff]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleKeyVisibility("groq")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a09bb5] hover:text-[#e0e0fa]"
+                    >
+                      {showKeys.groq ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
                   </div>
                 </div>
