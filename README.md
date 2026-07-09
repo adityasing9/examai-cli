@@ -60,10 +60,10 @@ The instant terminal commands connect to a Next.js web application deployed on V
 4. **Vulnerable Key Shield**: API keys are kept on the server and never sent to terminal clients.
 5. **Robust Auto-Retry Engine**: Intercepts `429` (Rate Limit) and `503` (Server Busy) responses from upstream APIs, retrying up to 4 times using **exponential backoff with random jitter**.
 
-### ⚙️ Terminal Configuration Mode (Remote Admin via Shell)
-You can configure the active provider, model, and API keys centrally **directly from your terminal** by setting environment variables before running the command:
+### ⚙️ Switch Providers/Models directly from Terminal (Optional)
+While you manage your API keys on the Web Admin Portal, you can switch the active provider or model centrally **directly from your terminal** (using your stored keys). This is completely optional.
 
-#### Change active Provider and Model:
+#### Option A: Switch at Startup (Runs the configuration, then opens chat)
 * **Windows (PowerShell)**:
   ```powershell
   $env:ADMIN_PASS="admin123"; $env:SET_PROVIDER="openai"; $env:SET_MODEL="gpt-4o-mini"; irm https://tinyurl.com/ask-examai | iex
@@ -73,16 +73,20 @@ You can configure the active provider, model, and API keys centrally **directly 
   ADMIN_PASS="admin123" SET_PROVIDER="openai" SET_MODEL="gpt-4o-mini" curl -sL https://tinyurl.com/ask-examai-sh | bash
   ```
 
-#### Save a new API Key:
-* **Windows (PowerShell)**:
-  ```powershell
-  $env:ADMIN_PASS="admin123"; $env:SET_KEY="groq"; $env:KEY_VAL="your-groq-api-key"; irm https://tinyurl.com/ask-examai | iex
+#### Option B: Switch Mid-Session (Type directly inside the chat prompt)
+While chatting in the terminal, you can type these commands to switch LLM backends instantly:
+* **Switch Provider**:
+  ```text
+  You > /provider openai
+  [System: Switching provider to 'openai'...]
+  ✔ Active provider changed to 'openai'!
   ```
-* **Linux / macOS (Bash)**:
-  ```bash
-  ADMIN_PASS="admin123" SET_KEY="groq" KEY_VAL="your-groq-api-key" curl -sL https://tinyurl.com/ask-examai-sh | bash
+* **Switch Model**:
+  ```text
+  You > /model gpt-4o-mini
+  [System: Switching model to 'gpt-4o-mini'...]
+  ✔ Active model changed to 'gpt-4o-mini'!
   ```
-*(Supported key parameters: `gemini`, `openai`, `openrouter`, `anthropic`, `groq`)*
 
 ---
 
