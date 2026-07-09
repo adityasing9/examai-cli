@@ -28,7 +28,7 @@ ExamAI CLI is an interactive command-line assistant designed to help engineering
 Want a simple AI assistant right in your terminal? Just run this **one command** in PowerShell:
 
 ```powershell
-irm tinyurl.com/examai-ask | iex
+irm https://tinyurl.com/ask-examai | iex
 ```
 
 That's it. No cloning, no Python, no API keys, no setup. Just ask questions and get clean, formatted answers directly in your terminal.
