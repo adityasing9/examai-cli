@@ -102,7 +102,7 @@ echo -e "${CYAN}${BOLD}  ║${DIM}      Powered by Google Gemini (Free)     ${CY
 echo -e "${CYAN}${BOLD}  ╚══════════════════════════════════════════╝${RESET}"
 echo ""
 echo -e "${DIM}  Type your question. Type 'exit' to quit.${RESET}"
-echo -e "${DIM}  Type '/provider [name]' or '/model [name]' to switch LLMs.${RESET}"
+echo -e "${DIM}  Type '/switch' to change LLMs interactively.${RESET}"
 echo -e "${DIM}  ─────────────────────────────────────────────${RESET}"
 echo ""
 
@@ -120,25 +120,40 @@ while true; do
         break
     fi
     
-    # --- INTERACTIVE CHAT COMMANDS ---
-    if [[ "$question" == /provider\ * ]]; then
-        new_prov="${question:10}"
-        # Trim whitespace
-        new_prov=$(echo "$new_prov" | xargs)
-        echo -e "${YELLOW}  Switching provider to '$new_prov'...${RESET}"
-        if set_vercel_config "$new_prov" ""; then
-            echo -e "${GREEN}  ✔ Active provider changed to '$new_prov'!${RESET}"
+    # --- INTERACTIVE SWITCH MENU ---
+    if [[ "$question" == "/switch" ]]; then
+        pass=$(get_admin_passcode)
+        if [ -z "$pass" ]; then
+            echo -e "${RED}  Authorization failed. Could not switch settings.${RESET}"
+            echo ""
+            continue
         fi
-        echo ""
-        continue
-    fi
 
-    if [[ "$question" == /model\ * ]]; then
-        new_model="${question:7}"
-        new_model=$(echo "$new_model" | xargs)
-        echo -e "${YELLOW}  Switching model to '$new_model'...${RESET}"
-        if set_vercel_config "" "$new_model"; then
-            echo -e "${GREEN}  ✔ Active model changed to '$new_model'!${RESET}"
+        echo ""
+        echo -e "${CYAN}  ┌─── Select AI Provider ───┐${RESET}"
+        echo -e "${CYAN}  │ 1. Google Gemini (Free)   │${RESET}"
+        echo -e "${CYAN}  │ 2. Groq (Ultra-fast)      │${RESET}"
+        echo -e "${CYAN}  │ 3. OpenAI (ChatGPT)       │${RESET}"
+        echo -e "${CYAN}  │ 4. OpenRouter             │${RESET}"
+        echo -e "${CYAN}  │ 5. Anthropic (Claude)     │${RESET}"
+        echo -e "${CYAN}  └───────────────────────────┘${RESET}"
+        echo -ne "${YELLOW}  Choose option (1-5): ${RESET}"
+        read -r opt
+        
+        prov=""
+        mdl=""
+        case "$opt" in
+            1) prov="gemini"; mdl="gemini-2.5-flash" ;;
+            2) prov="groq"; mdl="llama-3.3-70b-versatile" ;;
+            3) prov="openai"; mdl="gpt-4o-mini" ;;
+            4) prov="openrouter"; mdl="google/gemini-2.5-flash" ;;
+            5) prov="anthropic"; mdl="claude-3-5-sonnet-20241022" ;;
+            *) echo -e "${RED}  Invalid selection.${RESET}\n"; continue ;;
+        esac
+
+        echo -e "${YELLOW}  Switching to $prov ($mdl) centrally...${RESET}"
+        if set_vercel_config "$prov" "$mdl"; then
+            echo -e "${GREEN}  ✔ Centrally switched active model to $prov ($mdl)!${RESET}"
         fi
         echo ""
         continue

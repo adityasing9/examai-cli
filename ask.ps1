@@ -95,7 +95,7 @@ function Start-AskAI {
     Write-Host ""
 
     Write-Host "$dim  Type your question. Type 'exit' to quit.$reset"
-    Write-Host "$dim  Type '/provider [name]' or '/model [name]' to switch LLMs.$reset"
+    Write-Host "$dim  Type '/switch' to change LLMs interactively.$reset"
     Write-Host "$dim  ─────────────────────────────────────────────$reset"
     Write-Host ""
 
@@ -113,24 +113,41 @@ function Start-AskAI {
             break
         }
 
-        # --- INTERACTIVE CHAT COMMANDS ---
-        if ($trimmed.StartsWith("/provider ")) {
-            $newProv = $trimmed.Substring(10).Trim()
-            Write-Host "$yellow  Switching provider to '$newProv'...$reset"
-            $ok = Set-VercelConfig -provider $newProv
-            if ($ok) {
-                Write-Host "$green  ✔ Active provider changed to '$newProv'!$reset"
+        # --- INTERACTIVE SWITCH MENU ---
+        if ($trimmed -eq "/switch") {
+            $pass = Get-AdminPasscode
+            if (-not $pass) {
+                Write-Host "$red  Authorization failed. Could not switch settings.$reset"
+                Write-Host ""
+                continue
             }
+
             Write-Host ""
-            continue
-        }
-        
-        if ($trimmed.StartsWith("/model ")) {
-            $newModel = $trimmed.Substring(7).Trim()
-            Write-Host "$yellow  Switching model to '$newModel'...$reset"
-            $ok = Set-VercelConfig -model $newModel
+            Write-Host "$cyan  ┌─── Select AI Provider ───┐$reset"
+            Write-Host "$cyan  │ 1. Google Gemini (Free)   │$reset"
+            Write-Host "$cyan  │ 2. Groq (Ultra-fast)      │$reset"
+            Write-Host "$cyan  │ 3. OpenAI (ChatGPT)       │$reset"
+            Write-Host "$cyan  │ 4. OpenRouter             │$reset"
+            Write-Host "$cyan  │ 5. Anthropic (Claude)     │$reset"
+            Write-Host "$cyan  └───────────────────────────┘$reset"
+            Write-Host -NoNewline "$yellow  Choose option (1-5): $reset"
+            $opt = Read-Host
+            
+            $prov = $null
+            $mdl = $null
+            switch ($opt.Trim()) {
+                "1" { $prov = "gemini"; $mdl = "gemini-2.5-flash" }
+                "2" { $prov = "groq"; $mdl = "llama-3.3-70b-versatile" }
+                "3" { $prov = "openai"; $mdl = "gpt-4o-mini" }
+                "4" { $prov = "openrouter"; $mdl = "google/gemini-2.5-flash" }
+                "5" { $prov = "anthropic"; $mdl = "claude-3-5-sonnet-20241022" }
+                default { Write-Host "$red  Invalid selection.$reset`n"; continue }
+            }
+
+            Write-Host "$yellow  Switching to $prov ($mdl) centrally...$reset"
+            $ok = Set-VercelConfig -provider $prov -model $mdl
             if ($ok) {
-                Write-Host "$green  ✔ Active model changed to '$newModel'!$reset"
+                Write-Host "$green  ✔ Centrally switched active model to $prov ($mdl)!$reset"
             }
             Write-Host ""
             continue
